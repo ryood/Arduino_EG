@@ -8,10 +8,12 @@
 #define PIN_DECAY     A1
 #define PIN_SUSTAIN   A2   
 
-int16_t beatLen = 500;
+const byte sequence[] = { 255, 127, 255, 0, 127, 0, 255, 0, 255, 0, 255, 127, 255, 0, 255, 0 };
+
+int16_t noteLen = 125;
 
 int16_t level = 4095;
-int16_t duration = 400;
+int16_t duration = 125;
 int16_t decay = 100;
 int16_t sustain = 2000;
 
@@ -19,6 +21,7 @@ int16_t decay_delta;
 int16_t mod_value;
 
 int16_t tick;
+int16_t note;
 
 // DACに出力
 // parameter: v: 出力値(0 .. 4095)
@@ -36,10 +39,14 @@ void outADSR()
 {
   tick++;
   
-  if (tick > beatLen) {
-    tick = 0;    
+  if (tick > noteLen) {
+    tick = 0;
+    note++;
+    if (note == 16) {
+      note = 0;
+    }    
     // モジュレーション波形を初期化する
-    mod_value = level;
+    mod_value = sequence[note] << 4;
     decay_delta = (level - sustain) / decay;
   }
   
@@ -48,6 +55,7 @@ void outADSR()
       mod_value = 0;
   }
   outDAC(mod_value);
+  //Serial.println(mod_value);
   
   if (tick < decay) {
     mod_value -= decay_delta;
@@ -74,14 +82,15 @@ void setup() {
 
 void loop() {
   
-  duration = map(analogRead(PIN_DURATION), 0, 1023, 0, beatLen);
-  decay    = map(analogRead(PIN_DECAY), 0, 1023, 0, beatLen);
+  duration = map(analogRead(PIN_DURATION), 0, 1023, 0, noteLen);
+  decay    = map(analogRead(PIN_DECAY), 0, 1023, 0, noteLen);
   sustain  = analogRead(PIN_SUSTAIN) << 2;
-  
+  /*
   Serial.print(duration);
   Serial.print("\t");
   Serial.print(decay);
   Serial.print("\t");
   Serial.print(sustain);
   Serial.print("\n");
+  */
 }
