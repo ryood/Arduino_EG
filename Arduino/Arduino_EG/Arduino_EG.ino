@@ -11,6 +11,9 @@
 #define TITLE_STR1  ("Arduino EG")
 #define TITLE_STR2  ("20180710")
 
+// Attack time threashold: (2/3) * 1024
+const int attackThreashold = 683;
+
 const int ThresholdPin = 0;
 
 const int GateInPin = 2;
@@ -77,7 +80,7 @@ void loop()
 {
   int th = analogRead(ThresholdPin);
 
-  if (state == ST_ATTACK && th > 683) {
+  if (state == ST_ATTACK && th > attackThreashold) {
     state = ST_DECAY;
   }
   
