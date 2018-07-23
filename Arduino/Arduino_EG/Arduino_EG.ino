@@ -9,12 +9,10 @@
 #define PIN_CHECK   (0)
 
 #define TITLE_STR1  ("Arduino EG")
-#define TITLE_STR2  ("20180710")
+#define TITLE_STR2  ("20180716")
 
-// Attack time threashold: (2/3) * 1024
-const int attackThreashold = 683;
-
-const int ThresholdPin = 0;
+const int ThresholdPin = 0;   // A0
+const int AttackLevelPin = 1; // A1
 
 const int GateInPin = 2;
 
@@ -36,7 +34,10 @@ enum EG_STATE {
 
 volatile enum EG_STATE state = ST_RELEASE;
 
-void GateIn()
+// Attack time threashold: (2/3) * 1024
+int attackThreshold = 683;
+
+void gateIn()
 {
   bool isGateOn = digitalRead(GateInPin);
   
@@ -62,7 +63,7 @@ void setup()
   pinMode(LedPin, OUTPUT);
 
   pinMode(GateInPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(GateInPin), GateIn, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(GateInPin), gateIn, CHANGE);
 
 #if (PIN_CHECK)
   pinMode(CheckPin, OUTPUT);
@@ -78,13 +79,16 @@ void setup()
 
 void loop()
 {
+  attackThreshold = analogRead(AttackLevelPin);
   int th = analogRead(ThresholdPin);
 
-  if (state == ST_ATTACK && th > attackThreashold) {
+  if (state == ST_ATTACK && th > attackThreshold) {
     state = ST_DECAY;
   }
   
 #if (UART_TRACE)
+  Serial.print(attackThreshold);
+  Serial.print("\t");
   Serial.print(th);
   Serial.print("\t");
   Serial.println(state);
@@ -102,6 +106,7 @@ void loop()
     break;
   case ST_RELEASE:
     digitalWrite(AttackPin, LOW);
+    digitalWrite(InvAttackPin, HIGH);
     digitalWrite(GateOutPin, LOW);
     break;
   }
