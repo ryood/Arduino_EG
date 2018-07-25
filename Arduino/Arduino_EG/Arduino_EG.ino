@@ -9,7 +9,7 @@
 #define PIN_CHECK   (0)
 
 #define TITLE_STR1  ("Arduino EG")
-#define TITLE_STR2  ("20180716")
+#define TITLE_STR2  ("20180726")
 
 const int ThresholdPin = 0;   // A0
 const int AttackLevelPin = 1; // A1
@@ -33,6 +33,7 @@ enum EG_STATE {
 };
 
 volatile enum EG_STATE state = ST_RELEASE;
+volatile bool isStateChanged = true;
 
 // Attack time threashold: (2/3) * 1024
 int attackThreshold = 683;
@@ -47,10 +48,12 @@ void gateIn()
 
   if (isGateOn) {
     state = ST_ATTACK;
+    isStateChanged = true;
     digitalWrite(LedPin, HIGH);
   }
   else {
     state = ST_RELEASE;
+    isStateChanged = true;
     digitalWrite(LedPin, LOW);
   }
 }
@@ -62,7 +65,7 @@ void setup()
   pinMode(GateOutPin, OUTPUT);
   pinMode(LedPin, OUTPUT);
 
-  pinMode(GateInPin, INPUT_PULLUP);
+  pinMode(GateInPin, INPUT);
   attachInterrupt(digitalPinToInterrupt(GateInPin), gateIn, CHANGE);
 
 #if (PIN_CHECK)
@@ -84,6 +87,7 @@ void loop()
 
   if (state == ST_ATTACK && th > attackThreshold) {
     state = ST_DECAY;
+    isStateChanged = true;
   }
   
 #if (UART_TRACE)
@@ -94,21 +98,32 @@ void loop()
   Serial.println(state);
 #endif
 
-  switch (state) {
-  case ST_ATTACK:
-    digitalWrite(GateOutPin, HIGH);
-    digitalWrite(InvAttackPin, LOW);
-    digitalWrite(AttackPin, HIGH);
-    break;
-  case ST_DECAY:
-    digitalWrite(AttackPin, LOW);
-    digitalWrite(InvAttackPin, HIGH);
-    break;
-  case ST_RELEASE:
-    digitalWrite(AttackPin, LOW);
-    digitalWrite(InvAttackPin, HIGH);
-    digitalWrite(GateOutPin, LOW);
-    break;
+  if (isStateChanged) {
+#if (PIN_CHECK)
+    digitalWrite(CheckPin, HIGH);
+#endif
+    
+    isStateChanged = false;
+    switch (state) {
+    case ST_ATTACK:
+      digitalWrite(GateOutPin, HIGH);
+      digitalWrite(InvAttackPin, LOW);
+      digitalWrite(AttackPin, HIGH);
+      break;
+    case ST_DECAY:
+      digitalWrite(AttackPin, LOW);
+      digitalWrite(InvAttackPin, HIGH);
+      break;
+    case ST_RELEASE:
+      digitalWrite(AttackPin, LOW);
+      digitalWrite(InvAttackPin, HIGH);
+      digitalWrite(GateOutPin, LOW);
+      break;
+    }
+    
+#if (PIN_CHECK)
+    digitalWrite(CheckPin, LOW);
+#endif
   }
 }
 
