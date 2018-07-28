@@ -14,11 +14,11 @@
 const int ThresholdPin = 0;   // A0
 const int AttackLevelPin = 1; // A1
 
-const int GateInPin = 2;
+const int GateInPin = 3;
 
-const int AttackPin = 4;
-const int InvAttackPin = 5;
-const int GateOutPin = 6;
+const int AttackPin = 5;
+const int InvAttackPin = 6;
+const int GateOutPin = 7;
 
 const int LedPin = 13;
 
