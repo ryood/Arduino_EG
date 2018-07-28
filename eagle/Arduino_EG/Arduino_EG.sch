@@ -19214,7 +19214,7 @@ www.betemcu.cu</description>
 <pinref part="D2" gate="G$1" pin="A"/>
 </segment>
 </net>
-<net name="D4" class="0">
+<net name="D5" class="0">
 <segment>
 <wire x1="43.18" y1="43.18" x2="40.64" y2="43.18" width="0.1524" layer="91"/>
 <label x="38.1" y="43.18" size="1.778" layer="95"/>
@@ -19226,7 +19226,7 @@ www.betemcu.cu</description>
 <label x="116.84" y="83.82" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="D5" class="0">
+<net name="D6" class="0">
 <segment>
 <wire x1="43.18" y1="40.64" x2="40.64" y2="40.64" width="0.1524" layer="91"/>
 <label x="38.1" y="40.64" size="1.778" layer="95"/>
@@ -19242,7 +19242,7 @@ www.betemcu.cu</description>
 <pinref part="Q1" gate="G$1" pin="G"/>
 </segment>
 </net>
-<net name="D6" class="0">
+<net name="D7" class="0">
 <segment>
 <wire x1="43.18" y1="38.1" x2="40.64" y2="38.1" width="0.1524" layer="91"/>
 <label x="38.1" y="38.1" size="1.778" layer="95"/>
