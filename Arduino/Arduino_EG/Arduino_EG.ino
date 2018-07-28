@@ -82,6 +82,10 @@ void setup()
 
 void loop()
 {
+#if (PIN_CHECK)
+    digitalWrite(CheckPin, HIGH);
+#endif
+    
   attackThreshold = analogRead(AttackLevelPin);
   int th = analogRead(ThresholdPin);
 
@@ -99,10 +103,6 @@ void loop()
 #endif
 
   if (isStateChanged) {
-#if (PIN_CHECK)
-    digitalWrite(CheckPin, HIGH);
-#endif
-    
     isStateChanged = false;
     switch (state) {
     case ST_ATTACK:
@@ -120,10 +120,10 @@ void loop()
       digitalWrite(GateOutPin, LOW);
       break;
     }
-    
+  }
 #if (PIN_CHECK)
     digitalWrite(CheckPin, LOW);
 #endif
-  }
+
 }
 

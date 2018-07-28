@@ -18970,8 +18970,8 @@ www.betemcu.cu</description>
 <part name="JP4" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2" value="Rrls"/>
 <part name="GND1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="D1" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="1N4148" device="DO35-7" package3d_urn="urn:adsk.eagle:package:43339/1"/>
-<part name="D2" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="1N4148" device="DO35-7" package3d_urn="urn:adsk.eagle:package:43339/1"/>
+<part name="D1" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="1N4148" device="DO35-7" package3d_urn="urn:adsk.eagle:package:43339/1" value="1N4148"/>
+<part name="D2" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="1N4148" device="DO35-7" package3d_urn="urn:adsk.eagle:package:43339/1" value="1N4148"/>
 <part name="GND3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="C1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="CPOL-EU" device="E2.5-7" package3d_urn="urn:adsk.eagle:package:23345/1" value="47uF"/>
 <part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/1" value="6.8k"/>
@@ -19036,7 +19036,7 @@ www.betemcu.cu</description>
 <instance part="D1" gate="G$1" x="124.46" y="83.82"/>
 <instance part="D2" gate="G$1" x="127" y="66.04" smashed="yes" rot="R180">
 <attribute name="NAME" x="124.46" y="65.5574" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="144.78" y="63.2714" size="1.778" layer="96" rot="R180"/>
+<attribute name="VALUE" x="134.62" y="63.2714" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="GND3" gate="1" x="160.02" y="45.72"/>
 <instance part="C1" gate="G$1" x="160.02" y="55.88"/>
